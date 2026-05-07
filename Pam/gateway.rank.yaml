@@ -6,6 +6,11 @@
 
 models:
   # rank 3: top-tier premium
+  - rank: 3
+    name: gpt-5.5
+    budget: -1
+    thinkable: false   # OpenAI reasoning effort should be configured/tested via LiteLLM before enabling driver thinking
+    max_tokens: 128000
   # - rank: 3
   #   name: claude-opus
   #   budget: 0
@@ -14,14 +19,19 @@ models:
   #   max_tokens: 32000
 
   # rank 2: work + control capable
+  # - rank: 2
+  #   name: gemma4
+  #   budget: -1
+  #   thinkable: false   # 31b dense, Ollama Cloud, 42/42 sci bench validated
+  # - rank: 2
+  #   name: qwen3-coder
+  #   budget: -1
+  #   thinkable: false   # 480b MoE, Ollama Cloud
   - rank: 2
-    name: gemma4
+    name: deepseek-v4-pro
     budget: -1
-    thinkable: false   # 31b dense, Ollama Cloud, 42/42 sci bench validated
-  - rank: 2
-    name: qwen3-coder
-    budget: -1
-    thinkable: false   # 480b MoE, Ollama Cloud
+    thinkable: false   # DeepSeek thinking is configured in gateway.model.yaml via reasoning_effort + extra_body
+    max_tokens: 64000
   # - rank: 2
   #   name: claude-haiku
   #   budget: 0
@@ -30,23 +40,19 @@ models:
   #   max_tokens: 8192
 
   # rank 0: backup — reliable but slow
-  - rank: 0
-    name: deepseek-v3
-    budget: -1
-    thinkable: false   # v3.2 via Ollama Cloud
-  - rank: 0
-    name: kimi-k2
-    budget: -1
-    thinkable: false   # 1T MoE, Ollama Cloud
-  - rank: 0
-    name: qwen3-next-80b
-    budget: -1
-    thinkable: false   # 80b MoE, Ollama Cloud
+  # - rank: 0
+  #   name: kimi-k2
+  #   budget: -1
+  #   thinkable: false   # 1T MoE, Ollama Cloud
+  # - rank: 0
+  #   name: qwen3-next-80b
+  #   budget: -1
+  #   thinkable: false   # 80b MoE, Ollama Cloud
 
   # rank -1: can't use tools, fallback only
-  - rank: -1
-    name: gpt-oss
-    budget: -1
-    thinkable: false
+  # - rank: -1
+  #   name: gpt-oss
+  #   budget: -1
+  #   thinkable: false
 
 connection_max: 10

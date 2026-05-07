@@ -91,7 +91,9 @@ Common fields and usually we leave them default:
 |-------|---------|--------------|
 | `Rank: N` | auto | Difficulty. 0 = trivial, 1 = typical, 2 = reasoning, 3+ = hard |
 | `ForceModel: name` | rank-based | Pin worker model (e.g. `llama4-scout`) |
-| `ControlModel: name` | highest | Pin review model (e.g. `qwen3-coder`) |
+| `ControlModel: name` | highest/rank-local | Pin both prescan and review/final-review model |
+| `PrescanModel: name` | `ControlModel`/highest | Pin prescan/planning model only |
+| `ReviewModel: name` | worker-rank, escalates on stuck review | Pin independent review and final-review model only |
 | `Thinking: N` | off | Force thinking mode with N token budget |
 | `BashTime: N` | 600 | Max seconds per bash call. `-1` = unlimited |
 | `Skills: a, b` | auto | Skills to inject |
@@ -193,4 +195,3 @@ All secrets live in `.secret.sh` (sourced by `ENV.sh`, never committed). Copy th
 **SSH keys for agents**: agents run in isolated containers and cannot access your host `~/.ssh` by default. To give them access (e.g. for cloning private repos), copy your keys into the shared home directory or prepare your own agent-only keys. It is mounted at `/home/` inside the container when `CommonHome` is enabled (default `rw`). Keep `F/home/.ssh` out of version control — it is already in `.gitignore`.
 
 Treat these credentials carefully! They can in principle be read by the agents/LLM/cloud providers.
-

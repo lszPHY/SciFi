@@ -379,6 +379,8 @@ def prescan(task_content, task_dir, memory, global_memory, task_file="top.md"):
     skills_match = meta.get("Skills")
     force_model_match = meta.get("ForceModel")
     control_match = meta.get("ControlModel")
+    prescan_match = meta.get("PrescanModel")
+    review_match = meta.get("ReviewModel")
     thinking_match = meta.get("Thinking")
     nomemory_val = meta.get("NoMemory", "")
     no_memory = nomemory_val.lower() in ("on", "true", "yes", "1")
@@ -403,7 +405,7 @@ def prescan(task_content, task_dir, memory, global_memory, task_file="top.md"):
             categories.setdefault(cat, []).append(f)
 
     mr = pam.max_rank()
-    cm = control_match  # already a string or None
+    cm = prescan_match or control_match
     model = _resolve_control_model(cm)
 
     if rank_match and not md_files:
@@ -425,6 +427,10 @@ def prescan(task_content, task_dir, memory, global_memory, task_file="top.md"):
             result["force_model"] = force_model_match
         if control_match:
             result["control_model"] = control_match
+        if review_match:
+            result["control_model"] = review_match
+        if prescan_match:
+            result["prescan_model"] = prescan_match
         if thinking_match:
             result["thinking"] = True
             result["thinking_budget"] = int(thinking_match)
@@ -526,6 +532,10 @@ def prescan(task_content, task_dir, memory, global_memory, task_file="top.md"):
         result["force_model"] = force_model_match
     if control_match:
         result["control_model"] = control_match
+    if review_match:
+        result["control_model"] = review_match
+    if prescan_match:
+        result["prescan_model"] = prescan_match
     if thinking_match:
         result["thinking"] = True
         result["thinking_budget"] = int(thinking_match)
@@ -1651,9 +1661,12 @@ def _ensure_env_sh(task_dir):
 def review_sam(task_dir, node, scheduler, case, expect_section="",
               summary="", depth=0, control_model=None):
     """case='done': verify expectations. case='failed': decide recovery.
-    Pauses siblings before reviewing. Uses control_model if set, else highest."""
+    Pauses siblings before reviewing.
+    Uses control_model if set; otherwise starts with the worker/current rank
+    and escalates to highest only if the rank-local reviewer cannot commit."""
     prefix = "  " * depth
-    model = _resolve_control_model(control_model)
+    model = (_resolve_control_model(control_model) if control_model
+             else pam.select(node.rank, usage=_usage)["name"])
 
     # Auto-generate env.sh if worker created local env but forgot to write it.
     # This ensures the reviewer's bash calls find the worker's packages.
@@ -1758,6 +1771,21 @@ def review_sam(task_dir, node, scheduler, case, expect_section="",
                         review_prompt, REVIEW_TOOLS, _execute_tool_readonly,
                         task_dir, lateral_user_msg, iter_cap, terminal,
                         lateral_model, "REVIEW_LATERAL", depth)
+
+        if args is None:
+            # Escalate unpinned reviews to the highest model before falling
+            # back to text-only. This keeps routine validation on the worker
+            # tier but lets hard/buggy reviews call in the premium model.
+            highest_model = _resolve_control_model(None)
+            if not control_model and highest_model != model:
+                _history(task_dir, "REVIEW_ESCALATE_HIGHEST", depth,
+                         primary=model, highest=highest_model)
+                print(f"{prefix}[review escalate] {model}→{highest_model}",
+                      flush=True)
+                args = _run_agent_loop(
+                    review_prompt, REVIEW_TOOLS, _execute_tool_readonly,
+                    task_dir, user_msg, iter_cap, terminal,
+                    highest_model, "REVIEW_ESCALATED", depth)
 
         if args is None:
             # Final fallback: rank -2 text-only reasoning model.
@@ -2476,8 +2504,10 @@ def final_review(task_dir, task_file, result, elapsed, iterations, final_rank, f
 
     success = not result.startswith(("MAX_ITERATIONS", "UNVERIFIED"))
 
-    # Use control model if set, else highest (same as review — quality judgment)
-    model = _resolve_control_model(control_model)
+    # Use control model if set; otherwise keep final reflection on the final
+    # worker rank. Tool-based review escalates separately when it gets stuck.
+    model = (_resolve_control_model(control_model) if control_model
+             else pam.select(final_rank, usage=_usage)["name"])
 
     # Per-task system stats: what limits applied + what actually happened.
     # Gives final_review factual context to write sharp System suggestions.

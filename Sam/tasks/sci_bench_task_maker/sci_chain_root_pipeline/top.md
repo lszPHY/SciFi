@@ -1,5 +1,5 @@
 ---
-Rank: 3
+Rank: 2
 Timeout: 2400
 BashTime: -1
 NoMemory: on

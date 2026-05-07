@@ -6,7 +6,7 @@ export TMPDIR=${TMPDIR:-/tmp}
 
 ## Paths
 # export APPTAINER=/cvmfs/atlas.cern.ch/repo/containers/sw/apptainer/x86_64-el10/current/bin/apptainer
-export APPTAINER=$(which apptainer)
+export APPTAINER=/usr/bin/apptainer
 export SIF=$BASEDIR/Kam/rl9_micromamba_0.sif
 export OVERLAY=$BASEDIR/F/F.overlay.img
 export FDIR=$BASEDIR/F

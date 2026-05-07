@@ -185,7 +185,9 @@ Metadata (all optional, inside `---` fences):
 - `ThinkTime` (-1=unlimited) — LLM time cap per attempt; propagates to subtasks
 - `Skills` (comma-separated) — skill names to inject
 - `ForceModel` — pin worker to exact model name
-- `ControlModel` — pin review/prescan model (name or rank number)
+- `ControlModel` — pin both prescan and review/final-review model (name or rank number)
+- `PrescanModel` — pin prescan/planning model only; overrides `ControlModel` for prescan
+- `ReviewModel` — pin independent review and final-review model only; overrides default rank-local review
 - `Thinking: N` — force thinking mode with budget N tokens from start
 - `NoMemory: on|off` — when on, do not read global memory and do not write global history (clean-room run). Does not affect TaskGroup memory
 - `TaskGroup: name` — opt-in cross-task memory. Tasks in the same group share domain lessons from failed runs. Stored at `F/run/.taskgroup_memory/<name>.md`. Independent of NoMemory
@@ -241,6 +243,10 @@ and exits; the actual run starts when the allocation lands and re-invokes
 `python3 F/portal.py driver <task>` inside the job.
 
 **Output flow:** prescan → iterations → review → result → final review
+
+By default, review starts on the worker/current rank and escalates to the
+highest model only if that reviewer cannot commit a verdict. Set `ReviewModel`
+to force a specific reviewer from the start.
 
 **Final review** prints: conclusion (DONE/NOT DONE) + task suggestions.
 System suggestions saved to `.suggestion.md` (evolution reads these).

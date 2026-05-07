@@ -43,7 +43,11 @@ Slurm: V         — off | on (default: off). on implies BashTime: -1.
 SlurmHours: N    — Wall hours for SLURM allocation (default 4).
 SlurmCpus: N     — CPUs per task in SLURM (default 32).
 ForceModel: name — Pin worker to exact model name.
-ControlModel: V  — Pin prescan/review model.
+ControlModel: V  — Pin both prescan and review/final-review model.
+PrescanModel: V  — Pin prescan/planning model only.
+ReviewModel: V   — Pin independent review and final-review model only.
+                   If unset, review starts on the worker rank and escalates
+                   to highest only if the reviewer cannot commit.
 Thinking: N      — Force thinking mode with budget N tokens.
 NoMemory: on|off — No global memory/history (clean-room). Default: off.
 TaskGroup: name  — Cross-task domain memory (independent of NoMemory).
