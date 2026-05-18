@@ -36,6 +36,7 @@ $APPTAINER exec \
         --env "CAM_DIR=${CAM_DIR:+/cam}" \
         --bind "$BASEDIR/Sam":/srv/Sam \
         --bind "$FDIR/driver.py":/srv/lib/driver.py:ro \
+        --bind "$FDIR/task_parser.py":/srv/lib/task_parser.py:ro \
         --bind "$BASEDIR/Pam/pam.py":/srv/lib/pam.py:ro \
         --bind "$RANK_SRC":/srv/lib/gateway.rank.yaml:ro \
         --bind "$SKILLS_SRC":/srv/skills:ro \

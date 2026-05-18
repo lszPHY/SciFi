@@ -14,20 +14,18 @@ model_list:
   #   model_info:
   #     priority: 1
 
-  # ── claude-opus (Bedrock + Anthropic) ──
-  # - model_name: claude-opus
+  # ── Claude Opus 4.7 (Anthropic) ──
+  - model_name: claude-opus-4-7
+    litellm_params:
+      model: anthropic/claude-opus-4-7
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  # ── Claude Opus 4.7 (Bedrock example) ──
+  # - model_name: claude-opus-4-7-bedrock
   #   litellm_params:
-  #     model: bedrock/converse/us.anthropic.claude-opus-4-6-v1
+  #     model: bedrock/converse/us.anthropic.claude-opus-4-7-v1:0
   #     api_key: os.environ/BEDROCK_API_KEY
   #     aws_region_name: us-east-2
-  #   model_info:
-  #     priority: 0
-  # - model_name: claude-opus
-  #   litellm_params:
-  #     model: anthropic/claude-opus-4-6
-  #     api_key: os.environ/ANTHROPIC_API_KEY
-  #   model_info:
-  #     priority: 1
 
   # ── gemma4 (Ollama Cloud) ──
   # - model_name: gemma4

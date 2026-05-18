@@ -6,6 +6,11 @@
 
 models:
   # rank 3: top-tier premium
+  - rank: 4
+    name: claude-opus-4-7
+    budget: -1
+    thinkable: false
+    max_tokens: 32000
   - rank: 3
     name: gpt-5.5
     budget: -1
@@ -31,7 +36,7 @@ models:
     name: deepseek-v4-pro
     budget: -1
     thinkable: false   # DeepSeek thinking is configured in gateway.model.yaml via reasoning_effort + extra_body
-    max_tokens: 64000
+    max_tokens: 128000
   # - rank: 2
   #   name: claude-haiku
   #   budget: 0
