@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:36:09 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Tue May 19 15:50:36 2026
+# Process ID: 2758699
+# Current directory: /home/shuzhe/scifi
+# Command line: vivado
+# Log file: /home/shuzhe/scifi/vivado.log
+# Journal file: /home/shuzhe/scifi/vivado.jou
+# Running On        :phys-atlsmdt1.physics.lsa.umich.edu
+# Platform          :unknown
+# Operating System  :unknown
+# Processor Detail  :Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+# CPU Frequency     :3697.232 MHz
+# CPU Physical cores:4
+# CPU Logical cores :8
+# Host memory       :16412 MB
+# Swap memory       :16725 MB
+# Total Virtual     :33137 MB
+# Available Virtual :12478 MB
+#-----------------------------------------------------------
+start_gui
+create_project project_1 /home/shuzhe/Agent/project_1 -part xc7vx485tffg1157-1
+set_property part xc7k325tffg900-2 [current_project]
+set_property board_part xilinx.com:kc705:part0:1.6 [current_project]
+reset_property board_connections [get_projects project_1]
+set_property board_part xilinx.com:kc705:part0:1.6 [current_project]
+reset_property board_connections [get_projects project_1]

@@ -1,11 +1,11 @@
 ---
 Rank: 2
-Timeout: 6000
-BashTime: -1
+Timeout: 1800
+BashTime: 600
 Skills: local_env
-ForceModel: deepseek-v4-pro
-PrescanModel: claude-opus-4-7
-ReviewModel: gpt-5.5
+ForceModel: deepseekv4pro
+PrescanModel: claude-opus4.7
+ReviewModel: gpt5.5
 CommonStorage: rw
 TaskGroup: miniDAQ
 ---
@@ -21,10 +21,8 @@ Raw data file: /mnt/run00131_20260309_164054.dat
 
 Decomposition: repo.summarize.md (clone + notes), data.decode.md (decode .dat to .npz), plot.spectra.md (5 PNGs). All outputs land in the task output directory.
 
-**(important!!!)This is a continuation/debug run. Before doing new work, inspect the latest previous run under `F/tasks/task_input_*`, especially decoded.npz, miniDAQ_notes.md, plot.log, and SUMMARY.md. Reuse correct artifacts if valid. Only redo the failed or suspicious step. From last run, I find that you missunderstand the channel meaning. label chanel 0-23 is in one TDC board, so you have to seperately plot ADC overall for TDC00/01/02/03, also you have to plot ADC perCH for each TDC, the same for Chanel hits. You should definitly refer to my project and find how it deal with the plot wanted. And for TDC plot, what I want is drift time t_corr-t0, t0 is from cppfit, again you should look much more carefully to the project I give you for reference.**
-
 ## Todo
-1. Verify the raw data file exists with ls -lh /mnt/run00131_20260309_164054.dat. If missing, write error.txt and exit non-zero. Check the run history for shorter review at /tasks/task_input_20260519113154_2700054_1/
+1. Verify the raw data file exists with ls -lh /mnt/run00131_20260309_164054.dat. If missing, write error.txt and exit non-zero.
 2. Set up a local Python env per the local_env skill: create ./mamba_env with python=3.12, numpy, matplotlib, and write env.sh. Subtasks may install extras on demand.
 3. Run subtask repo.summarize.md to produce miniDAQ_notes.md.
 4. Run subtask data.decode.md to produce decoded.npz.

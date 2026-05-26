@@ -17,7 +17,7 @@ Include domain knowledge, constraints, and assumptions.
 Sub-tasks are referenced by filename: `subtask_name.md`.
 Category naming: `category.specific.md` (e.g., `data.load.md`, `data.clean.md`)
 shares experience within the `data` category.
-
+When meet tasks that need read files first， it is better to add 1 step to todo in order to verify the path given is appropriate.
 ## Todo
 1. First step — describe what to do
 2. Run sub-task `setup.md` (delegates to a sub-SAM)

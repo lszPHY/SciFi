@@ -18,6 +18,7 @@ done
 BINDS=( --bind "$PWD":/srv:rw --bind "${TMPDIR:-/tmp}":/tmp:rw )
 [ -d "$BASEDIR/F/mnt" ]  && BINDS+=( --bind "$BASEDIR/F/mnt":/mnt:rw )
 [ -d "$BASEDIR/F/home" ] && BINDS+=( --bind "$BASEDIR/F/home":/home:rw )
+[ -d /hdd/Xilinx ]       && BINDS+=( --bind /hdd/Xilinx:/hdd/Xilinx:ro )
 
 # GPU auto-detect — CUDA_VISIBLE_DEVICES wins, nvidia-smi is the fallback.
 GPU_ARGS=()

@@ -430,6 +430,13 @@ def build_driver_cmd(task_name, extra_args):
     if common_storage != "disable" and os.path.isdir(mnt_dir):
         binds.append((mnt_dir, "/mnt", common_storage))
 
+    # Host EDA tools. Vivado is installed outside the SciF shared mounts on
+    # this host, so expose it read-only when available. Keep the bind narrow:
+    # tasks need the toolchain, not write access to /hdd.
+    vivado_host = "/hdd/Xilinx"
+    if os.path.isdir(vivado_host):
+        binds.append((vivado_host, vivado_host, "ro"))
+
     # SLURM binds
     binds.extend(slurm_binds)
 

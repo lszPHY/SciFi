@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:36:09 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Tue May 19 16:27:27 2026
+# Process ID: 99
+# Current directory: /home/shuzhe/scifi
+# Command line: vivado -mode batch -source /tmp/tmp.7hEargVx0o
+# Log file: /home/shuzhe/scifi/vivado.log
+# Journal file: /home/shuzhe/scifi/vivado.jou
+# Running On        :phys-atlsmdt1.physics.lsa.umich.edu
+# Platform          :unknown
+# Operating System  :unknown
+# Processor Detail  :Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+# CPU Frequency     :3779.715 MHz
+# CPU Physical cores:4
+# CPU Logical cores :8
+# Host memory       :16412 MB
+# Swap memory       :16725 MB
+# Total Virtual     :33137 MB
+# Available Virtual :13261 MB
+#-----------------------------------------------------------
+source /tmp/tmp.7hEargVx0o
